@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PlaylistVersionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PlaylistVersionDO">
+        <id column="uuid" property="uuid" />
+        <result column="organization_id" property="organizationId" />
+        <result column="playlist_uuid" property="playlistUuid" />
+        <result column="templated" property="templated" />
+        <result column="publish_time" property="publishTime" />
+        <result column="valid_time" property="validTime" />
+        <result column="time_zone" property="time_zone" />
+        <result column="publish_later" property="publish_later" />
+        <result column="status" property="status" />
+        <result column="extension" property="extension" />
+        <result column="deleted" property="deleted" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+    </resultMap>
+
+</mapper>

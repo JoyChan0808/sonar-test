@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PlaylistSendLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PlaylistSendLogDO">
+        <id column="id" property="id" />
+        <result column="receipt_uuid" property="receiptUuid" />
+        <result column="action_id" property="actionId" />
+        <result column="pos_id" property="posId" />
+        <result column="complex_id" property="complexId" />
+        <result column="device_uuid" property="deviceUuid" />
+        <result column="ppl_uuid" property="pplUuid" />
+        <result column="playlist_uuid" property="playlistUuid" />
+        <result column="title" property="title" />
+        <result column="json" property="json" />
+        <result column="content_ids" property="contentIds" />
+        <result column="method" property="method" />
+        <result column="status" property="status" />
+        <result column="message" property="message" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+    </resultMap>
+
+    <sql id="baseColumnSql">
+        id,receipt_uuid,action_id,pos_id,complex_id,device_uuid,ppl_uuid,playlist_uuid,title,`method`,`status`,created,last_modified
+    </sql>
+
+    <select id="getLatestIds" resultType="java.lang.Long">
+        SELECT
+        max(id) as latest_id
+        FROM
+        playlist_send_log
+        WHERE 1=1
+        <if test="complexId != null and complexId != ''">
+            AND complex_id = #{complexId}
+        </if>
+        <if test="playlistUuid != null and playlistUuid != ''">
+            AND playlist_uuid = #{playlistUuid}
+        </if>
+        GROUP BY playlist_uuid,complex_id
+    </select>
+
+    <select id="getLatestPlaylistSendLogs" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumnSql"/>
+        FROM
+        playlist_send_log
+        WHERE
+        id IN
+        <foreach collection="latestIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getGroupByTplAndComplex" resultMap="BaseResultMap">
+        select playlist_uuid,complex_id
+        from playlist_send_log
+        where playlist_uuid in
+        <foreach collection="tplUUIDs" item="uuid" open="(" close=")" separator=",">
+            #{uuid}
+        </foreach>
+        group by playlist_uuid,complex_id
+    </select>
+
+</mapper>

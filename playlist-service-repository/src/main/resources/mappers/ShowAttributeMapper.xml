@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.ShowAttributeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.ShowAttributeDO">
+        <id column="uuid" property="uuid" />
+        <result column="organization_id" property="organizationId" />
+        <result column="short_code" property="shortCode" />
+        <result column="title" property="title" />
+        <result column="deleted" property="deleted" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+    </resultMap>
+
+    <select id="maxShortCode" resultType="int">
+        select max(short_code) from show_attribute
+    </select>
+
+    <select id="getTitlesBySumCode" resultType="string">
+        select title from show_attribute where 1<![CDATA[<<]]>short_code <![CDATA[&]]> #{0}>0
+    </select>
+
+</mapper>

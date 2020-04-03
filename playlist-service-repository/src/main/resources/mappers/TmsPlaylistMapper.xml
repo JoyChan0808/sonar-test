@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.TmsPlaylistMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.TmsPlaylistDO">
+        <id column="id" property="id" />
+        <result column="organization_id" property="organizationId" />
+        <result column="playlist_uuid" property="playlistUuid" />
+        <result column="title" property="title" />
+        <result column="json" property="json" />
+        <result column="content_ids" property="contentIds" />
+        <result column="templated" property="templated" />
+        <result column="source" property="source" />
+        <result column="source_ppl_id" property="sourcePplId" />
+        <result column="source_ppl_version_id" property="sourcePplVersionId" />
+        <result column="source_segment_split_uuid" property="sourceSegmentSplitUuid" />
+        <result column="automatically_apply" property="automaticallyApply" />
+        <result column="source_complex_id" property="sourceComplexId" />
+        <result column="source_device_id" property="sourceDeviceId" />
+        <result column="filled" property="filled" />
+        <result column="changed" property="changed" />
+        <result column="deleted" property="deleted" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+        <result column="validation" property="validation" />
+    </resultMap>
+
+    <sql id="withoutJsonSql">
+        id,organization_id,playlist_uuid,title,content_ids,templated,source,source_ppl_id,source_ppl_version_id,
+        source_segment_split_uuid,automatically_apply,source_complex_id,source_device_id,filled,changed,deleted,
+        created,last_modified
+    </sql>
+
+    <select id="getTplListByCplUuid" resultMap="BaseResultMap" parameterType="string">
+        select * from tms_playlist where JSON_SEARCH(content_ids, 'one', #{0}) is not null and deleted = 0
+    </select>
+
+    <update id="correctTplOrgId">
+        update tms_playlist
+        set organization_id = #{orgId}
+        where source_complex_id = #{complexId}
+        and organization_id &lt;&gt; #{orgId}
+        and deleted = 0
+    </update>
+
+    <select id="getTplListForUpdate" resultMap="BaseResultMap">
+        select * from tms_playlist
+        where source_ppl_id = #{pplUuid}
+        and playlist_uuid in
+        <foreach collection="tplUUIDs" item="tplUuid" open="(" close=")" separator=",">
+            #{tplUuid}
+        </foreach>
+        and deleted = 0
+        for update
+    </select>
+
+    <select id="getTplListScopeInPro" resultMap="BaseResultMap">
+        select
+        <include refid="withoutJsonSql"/>
+        from tms_playlist
+        where source_ppl_id = #{pplId}
+        and source = #{source}
+        and source_complex_id is null
+        <if test="pplVersionId != null">
+            and source_ppl_version_id = #{pplVersionId}
+        </if>
+    </select>
+</mapper>

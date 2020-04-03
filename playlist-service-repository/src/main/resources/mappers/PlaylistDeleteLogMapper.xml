@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PlaylistDeleteLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PlaylistDeleteLogDO">
+        <id column="id" property="id" />
+        <result column="receipt_uuid" property="receiptUuid" />
+        <result column="complex_id" property="complexId" />
+        <result column="device_uuid" property="deviceUuid" />
+        <result column="tpl_uuids" property="tplUuids" />
+        <result column="delete_system" property="deleteSystem" />
+        <result column="status" property="status" />
+        <result column="message" property="message" />
+        <result column="attempted" property="attempted" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+    </resultMap>
+
+</mapper>

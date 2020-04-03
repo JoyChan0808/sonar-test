@@ -1,0 +1,1 @@
+alter table tms_playlist add column validation JSON COMMENT 'playlist validation json';

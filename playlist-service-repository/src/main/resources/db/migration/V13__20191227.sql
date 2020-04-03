@@ -1,0 +1,2 @@
+alter table playlist_send_log add index `idx_receipt_uuid`(`receipt_uuid`) USING BTREE COMMENT 'receipt index';
+alter table playlist_send_log add index `idx_action_id`(`action_id`) USING BTREE COMMENT 'action index';

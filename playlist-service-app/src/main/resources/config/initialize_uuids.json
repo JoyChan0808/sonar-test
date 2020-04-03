@@ -1,0 +1,21 @@
+{
+  "api_segment": {
+    "Pre-Reel": "4773d617-ff12-5967-bd44-38a3170126bf",
+    "Cineworld Ident 1": "00bbafeb-159a-5b24-9ab8-cc7481f62cf5",
+    "Cineworld Ident 2": "d8029071-198b-5a8b-9a2f-78fe0bd80985",
+    "Cineworld Ident 3": "1c74fcf7-34b0-5e0a-869a-66013c9beb30",
+    "Cineworld Ident 4": "247f6b35-6b1e-50d5-bcd8-eecdc43689a3",
+    "Trailers": "bf066afe-7a49-54e0-9686-fcca1cda8a0b",
+    "National Advertisement": "3aa4ec89-0712-5b68-b381-a1f0bc9fa5b0",
+    "Gold Spot Advertisement": "f85dbe52-c665-5828-be4c-2fbadb7554f9",
+    "Intermission": "748eb62c-8dec-5c6d-93f3-f7fbf01d7f40"
+  },
+  "automation": {
+    "To 2D Scope": "49e2cebd-c9f5-5c6e-a9b0-9181bd87cba2",
+    "To 3D Scope": "9bec4ede-61ed-5d65-9ddb-28022e7cea42",
+    "To 2D Flat": "deaff78d-d0e4-5d5e-9d3b-eab56654bb96",
+    "To 3D Flat": "88a4e035-4e66-5b12-bb3f-ef82b3c7830c",
+    "To 5.1": "8fadec5c-50a3-57f5-93f7-08487cabc9a2",
+    "To 7.1": "f5d80e25-a8ee-5016-9e55-4f69dd050a4b"
+  }
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PlaylistSyncLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PlaylistSyncLogDO">
+        <id column="id" property="id" />
+        <result column="complex_id" property="complexId" />
+        <result column="device_uuid" property="deviceUuid" />
+        <result column="playlist_uuid" property="playlistUuid" />
+        <result column="title" property="title" />
+        <result column="hash" property="hash" />
+        <result column="json" property="json" />
+        <result column="content_ids" property="contentIds" />
+        <result column="templated" property="templated" />
+        <result column="as_3d" property="as3d" />
+        <result column="as_4k" property="as4k" />
+        <result column="as_hfr" property="asHfr" />
+        <result column="method" property="method" />
+        <result column="status" property="status" />
+        <result column="message" property="message" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+    </resultMap>
+
+    <sql id="baseColumnSql">
+        id,complex_id,device_uuid,playlist_uuid,title,`hash`,`method`,`status`,created,last_modified
+    </sql>
+
+    <select id="getLatestIds" resultType="java.lang.Long">
+        SELECT
+        max(id) as latest_id
+        FROM
+        playlist_sync_log
+        WHERE 1=1
+        <if test="complexId != null and complexId != ''">
+            AND complex_id = #{complexId}
+        </if>
+        <if test="playlistUuids != null and playlistUuids.size != 0">
+            AND playlist_uuid IN
+            <foreach collection="playlistUuids" item="playlistUuid" open="(" close=")" separator=",">
+                #{playlistUuid}
+            </foreach>
+        </if>
+        GROUP BY playlist_uuid,complex_id
+    </select>
+
+    <select id="getLatestPlaylistSyncLogs" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumnSql"/>
+        FROM
+        playlist_sync_log
+        WHERE
+        id IN
+        <foreach collection="latestIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

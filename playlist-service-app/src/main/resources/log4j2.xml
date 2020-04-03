@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
+
+<configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <Property name="patternLayout">[%d{yyyy-MM-dd HH:mm:ss.SSS}][%p][%X{TS-Request-ID}][%t][%tid][%c{1.}:%L] - %m%n</Property>
+        <Property name="logPath">${sys:user.home}/logs/playlist-service</Property>
+        <Property name="logHistoryPath">${sys:user.home}/logs/${date:yyyy-MM-dd}/playlist-service</Property>
+        <Property name="maxSize">10 M</Property>
+        <Property name="maxFile">20</Property>
+    </Properties>
+
+    <!--先定义所有的appender-->
+    <appenders>
+
+        <!--这个输出控制台的配置-->
+        <console name="Console" target="SYSTEM_OUT">
+            <!--输出日志的格式-->
+            <PatternLayout pattern="${patternLayout}"/>
+        </console>
+
+        <!--<Sentry name="Sentry"/>-->
+
+        <!--&lt;!&ndash;文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用 &ndash;&gt;-->
+        <!--&lt;!&ndash;append为TRUE表示消息增加到指定文件中，false表示消息覆盖指定的文件内容，默认值是true &ndash;&gt;-->
+        <!--<File name="log" fileName="log/test.log" append="false">-->
+            <!--<PatternLayout pattern="${patternLayout}"/>-->
+        <!--</File>-->
+        <!--<File name="ERROR" fileName="log/error.log">-->
+            <!--<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>-->
+            <!--<PatternLayout pattern="${patternLayout}"/>-->
+        <!--</File>-->
+
+        <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFile-error" fileName="${logPath}/error.log" filePattern="${logHistoryPath}/error-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <DefaultRolloverStrategy max="${maxFile}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxSize}"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFile-system" fileName="${logPath}/system.log" filePattern="${logHistoryPath}/system-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <DefaultRolloverStrategy max="${maxFile}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxSize}"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFile-app" fileName="${logPath}/app.log" filePattern="${logHistoryPath}/app-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <DefaultRolloverStrategy max="${maxFile}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxSize}"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFile-biz" fileName="${logPath}/biz.log" filePattern="${logHistoryPath}/biz-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <DefaultRolloverStrategy max="${maxFile}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxSize}"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFile-sal" fileName="${logPath}/sal.log" filePattern="${logHistoryPath}/sal-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <DefaultRolloverStrategy max="${maxFile}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxSize}"/>
+            </Policies>
+        </RollingFile>
+
+        <Sentry name="Sentry" />
+
+    </appenders>
+
+
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <root level="info">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFile-error"/>
+            <appender-ref ref="Sentry" level="error"/>
+        </root>
+        <logger name="com.aam.producer.playlist.app" level="info" additivity="true">
+            <appender-ref ref="RollingFile-app"/>
+        </logger>
+
+        <logger name="com.aam.producer.playlist.biz" level="info" additivity="true">
+            <appender-ref ref="RollingFile-biz"/>
+        </logger>
+
+        <logger name="com.aam.producer.playlist.sal" level="info" additivity="true">
+            <appender-ref ref="RollingFile-sal"/>
+        </logger>
+
+        <logger name="org.springframework" level="info" additivity="true">
+            <appender-ref ref="RollingFile-system"/>
+        </logger>
+
+        <!-- 不打日志 -->
+        <!-- 过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <logger name="org.mybatis" level="info"/>
+        <logger name="org.hibernate" level="info"/>
+        <logger name="org.apache" level="info"/>
+        <logger name="org.apache.kafka" level="WARN" />
+        <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="WARN"/>
+
+    </loggers>
+</configuration>

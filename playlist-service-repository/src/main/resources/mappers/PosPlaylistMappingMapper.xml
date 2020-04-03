@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PosPlaylistMappingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PosPlaylistMappingDO">
+        <id column="id" property="id" />
+        <result column="organization_id" property="organizationId" />
+        <result column="pos_uuid" property="posUuid" />
+        <result column="pos_title" property="posTitle" />
+        <result column="pos_start" property="posStart" />
+        <result column="pos_end" property="posEnd" />
+        <result column="complex_uuid" property="complexUuid" />
+        <result column="screen_uuid" property="screenUuid" />
+        <result column="title_uuid" property="titleUuid" />
+        <result column="unmatched_show_attributes" property="unmatchedShowAttributes" />
+        <result column="show_attributes" property="showAttributes" />
+        <result column="show_attributes_code" property="showAttributesCode" />
+        <result column="language" property="language" />
+        <result column="ppl_uuid" property="pplUuid" />
+        <result column="ppl_automatic" property="pplAutomatic" />
+        <result column="tpl_uuid" property="tplUuid" />
+        <result column="state" property="state" />
+        <result column="assign_system" property="assignSystem" />
+        <result column="mapping_completed" property="mappingCompleted" />
+        <result column="mapping_status" property="mappingStatus" />
+        <result column="mapping_message" property="mappingMessage" />
+        <result column="deleted" property="deleted" />
+        <result column="attempted" property="attempted" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+    </resultMap>
+
+    <select id="getIdsWithOrder" resultType="int">
+        select id from pos_playlist_mapping
+        where pos_uuid in
+        <foreach collection="posUUIDs" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        <if test="tplUuid != null">
+            and tpl_uuid = #{tplUuid}
+        </if>
+        <if test="tplUuid == null">
+            and tpl_uuid is null
+        </if>
+        and deleted = 0
+        order by id
+    </select>
+
+    <select id="getPosCount" resultType="java.util.HashMap">
+        select ppl_uuid as `key`,count(pos_uuid) as `value` from pos_playlist_mapping where ppl_uuid in (#{playlistUuids}) group by ppl_uuid;
+    </select>
+
+    <select id="getPosByTitle" resultType="java.util.HashMap">
+        select ppl_uuid,pos_uuid from pos_playlist_mapping where title_uuid = #{titleId};
+    </select>
+
+    <update id="updateMappingSendInfo">
+        update pos_playlist_mapping
+        set mapping_status = #{reStatus},mapping_message = #{reMessage}
+        <if test="unMapped == true">
+            ,assign_system = null
+        </if>
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        <if test="tplUuid != null">
+            and tpl_uuid = #{tplUuid}
+        </if>
+        <if test="tplUuid == null">
+            and tpl_uuid is null
+        </if>
+        and deleted = 0
+    </update>
+
+    <update id="correctPosOrgId">
+        update pos_playlist_mapping
+        set organization_id = #{orgId}
+        where id in
+        (
+            select a.id from
+            (
+                select id from pos_playlist_mapping
+                where complex_uuid = #{complexId}
+                and organization_id &lt;&gt; #{orgId}
+                and deleted = 0
+                order by id
+            ) a
+        )
+    </update>
+</mapper>

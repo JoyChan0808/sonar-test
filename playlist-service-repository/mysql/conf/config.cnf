@@ -1,0 +1,11 @@
+[mysqld]
+user=mysql
+default-storage-engine=INNODB
+character-set-server=utf8
+port=33060
+bind-address=0.0.0.0
+skip-name-resolve
+[client]
+default-character-set=utf8
+[mysql]
+default-character-set=utf8

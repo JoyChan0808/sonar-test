@@ -1,0 +1,1 @@
+alter table segment_split add column user_group int not null default 0 COMMENT 'user define group';

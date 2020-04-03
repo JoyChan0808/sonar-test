@@ -1,0 +1,1 @@
+create index idx_org_short_code on show_attribute(organization_id,short_code);

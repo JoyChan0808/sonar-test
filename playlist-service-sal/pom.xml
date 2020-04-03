@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.aam.producer</groupId>
+        <artifactId>playlist-service-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>playlist-service-sal</artifactId>
+
+    <properties>
+
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.aam.producer</groupId>
+            <artifactId>playlist-service-protocol</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aam.producer</groupId>
+            <artifactId>task-service-protocol</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0.1-jre</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

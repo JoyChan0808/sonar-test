@@ -1,0 +1,112 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url:
+    username:
+    password:
+    druid:
+      minIdle: 2
+      maxActive: 15
+      initialSize: 2
+      maxWait: 3000
+      minEvictableIdleTimeMillis: 1800000
+      timeBetweenEvictionRunsMillis: 60000
+      maxPoolPreparedStatementPerConnectionSize: 10
+  redis:
+    host:
+    port:
+    password:
+
+thunderstorm:
+  auth:
+    pathPatterns:
+      - /**
+    excludePathPatterns:
+      - /api/core/**
+      - /swagger-ui.html/**
+      - /webjars/**
+      - /v2/**
+      - /swagger-resources/**
+      - /api-docs/**
+      - /actuator/**
+      - /**
+    centerUrl:
+    securityUri: ${thunderstorm.auth.centerUrl}/api/core/auth/security
+    restConnectTimeout: 3000
+    restReadTimeout: 120000
+  restTemplate:
+    connectTimeout: 3000
+    readTimeout: 120000
+  cors:
+    allowedOrigins: '*'
+    allowedHeaders: '*'
+    allowedMethods: '*'
+    allowedCredentials: true
+    maxAge: 3600
+  complexService:
+    endpoint:
+    getComplexes: ${thunderstorm.complexService.endpoint}/api/core/complex/list?uuids={uuids}
+    getLmsUri: ${thunderstorm.complexService.endpoint}/api/core/complex/{complex_uuid}/lms
+    getFilmHallUri: ${thunderstorm.complexService.endpoint}/api/core/screen/list/complexes?uuids={uuids}
+    getComplex: ${thunderstorm.complexService.endpoint}/api/core/complex/flm_slim_list?uuids={uuids}
+    getComplexByGroup: ${thunderstorm.complexService.endpoint}/api/core/complex/list_by_groups?uuids={uuids}
+    getComplexGroup: ${thunderstorm.complexService.endpoint}/api/core/complex-group/{uuid}/complexes
+    listByGroupsUri: ${thunderstorm.complexService.endpoint}/api/core/complex/list_by_groups?uuids={uuids}
+  userService:
+    endpoint:
+    getOrganizations: ${thunderstorm.userService.endpoint}/api/core/organizations
+    getOrganization: ${thunderstorm.userService.endpoint}/api/core/organization/{uuid}
+    getOrgUri: ${thunderstorm.userService.endpoint}/api/core/user/complex/{complex_uuid}/organization
+    getComplexGroupUri: ${thunderstorm.userService.endpoint}/api/core/user/organization/{organization_uuid}/complex_group
+  titleService:
+    endpoint:
+    getTitlesUri: ${thunderstorm.titleService.endpoint}/api/v2/titles?uuid={uuids}&group_uuid={group_uuids}
+    getTitleUri: ${thunderstorm.titleService.endpoint}/api/core/titles?uuid={uuid}
+  producerViewService:
+    endpoint:
+    getCplUri: ${thunderstorm.producerViewService.endpoint}/api/core/content/list?cpl_uuid_list={cpl_uuids}&organization_id={organization_id}
+    sendPosMapping: ${thunderstorm.producerViewService.endpoint}/api/core/pos/list
+  taskService:
+    endpoint:
+    queryPplIssue: ${thunderstorm.taskService.endpoint}/api/core/task/issue/ppl?ppl_ids={ppl_ids}&title_uuid={title_uuid}&user_id={user_id}&organization_uuid={organization_uuid}
+    queryOnePplIssue: ${thunderstorm.taskService.endpoint}/api/core/task/issue/ppl/{ppl_uuid}?content_association_uuid={content_association_uuid}&title_uuid={title_uuid}&user_id={user_id}&organization_uuid={organization_uuid}
+  cplService:
+    endpoint:
+    checkCplRatings: ${thunderstorm.cplService.endpoint}/api/core/does_ratings_in_list?ratings={ratings}
+  jobService:
+    add: ${thunderstorm.jobService.endpoint}/job-service/jobinfo/faced/add
+    remove: ${thunderstorm.jobService.endpoint}/job-service/jobinfo/faced/remove?id={id}
+    jobGroup: 3
+    callback: ${thunderstorm.playlistService.endpoint}/api/core/playlist/ppl
+  playlistService:
+    endpoint:
+  common:
+    posProtectOffset: 1800000
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logicDeleteValue: 1
+      logicNotDeleteValue: 0
+    banner: false
+
+kafka:
+  bootstrapAddress:
+  topics:
+    playlistHashSyncRequest: playlist.sync-hash.request
+    playlistSyncRequest: playlist.sync.request
+    playlistSendRequest: playlist.send.request
+    playlistDeletionData: playlist-deletion.data
+    segmentData: segment.data
+    playlistWarningData: task-report.data
+    posMappingRequest: pos.batch-mapping.request
+    posMatchData: pos-match.data
+    pplContentsData: ppl-contents.data
+    pplChangedData: producer-playlist.changed.data
+    posFetch: pos.fetch
+    playlistDeleteRequest: playlist.delete.request
+    tplPosMatchedData: tpl-pos.matched.data
+    playlistData: playlist.data
+
+dsn: https://c5e4c86982284924beb48ec54bd285fe:8bae4e0852c041a2866188cb7e2a7b1d@sentry.aamts.io/30

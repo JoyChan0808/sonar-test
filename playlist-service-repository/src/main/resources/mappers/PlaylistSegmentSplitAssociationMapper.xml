@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PlaylistSegmentSplitAssociationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PlaylistSegmentSplitAssociationDO">
+        <id column="id" property="id"/>
+        <result column="organization_id" property="organizationId"/>
+        <result column="playlist_uuid" property="playlistUuid"/>
+        <result column="ppl_version_id" property="pplVersionId"/>
+        <result column="title_id" property="titleId"/>
+        <result column="segment_uuid" property="segmentUuid"/>
+        <result column="segment_split_uuid" property="segmentSplitUuid"/>
+        <result column="created" property="created"/>
+        <result column="last_modified" property="lastModified"/>
+    </resultMap>
+
+    <select id="getAllSegmentSplitByTitle" parameterType="string" resultMap="BaseResultMap">
+        select * from playlist_segment_split_association where title_id=#{0}
+    </select>
+
+</mapper>

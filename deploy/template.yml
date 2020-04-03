@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {SERVICE_NAME}
+spec:
+  ports:
+  - name: '{PORT}'
+    port: {PORT}
+    targetPort: {PORT}
+    nodePort: {NODE_PORT}
+  - name: '5005'
+    port: 5005
+    targetPort: 5005
+    nodePort: 32213
+  selector:
+    thunderstorm-service: {SERVICE_NAME}
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {SERVICE_NAME}-deployment
+  labels:
+    thunderstorm-service: {SERVICE_NAME}
+spec:
+  replicas: {REPLICAS}
+  selector:
+    matchLabels:
+      thunderstorm-service: {SERVICE_NAME}
+  template:
+    metadata:
+      labels:
+        thunderstorm-service: {SERVICE_NAME}
+    spec:
+      containers:
+      - env:
+        - name: JVM_OPTS
+          value: -Xms512m -Xmx512m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "{MYSQL_PASSWORD}"
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}
+        - name: SPRING_DATASOURCE_USERNAME
+          value: {MYSQL_USER}
+        - name: SPRING_PROFILES_ACTIVE
+          value: {SPRING_PROFILES_ACTIVE}
+        - name: THUNDERSTORM_COMPLEXSERVICE_ENDPOINT
+          value: {THUNDERSTORM_COMPLEXSERVICE_ENDPOINT}
+        - name: THUNDERSTORM_USERSERVICE_ENDPOINT
+          value: {THUNDERSTORM_USERSERVICE_ENDPOINT}
+        - name: THUNDERSTORM_TITLESERVICE_ENDPOINT
+          value: {THUNDERSTORM_TITLESERVICE_ENDPOINT}
+        - name: THUNDERSTORM_POSSERVICE_ENDPOINT
+          value: {THUNDERSTORM_POSSERVICE_ENDPOINT}
+        - name: THUNDERSTORM_CPLSERVICE_ENDPOINT
+          value: {THUNDERSTORM_CPLSERVICE_ENDPOINT}
+        - name: THUNDERSTORM_PRODUCERVIEWSERVICE_ENDPOINT
+          value: {THUNDERSTORM_PRODUCERVIEWSERVICE_ENDPOINT}
+        - name: SKYWALKING_AGENT
+          value: {SKYWALKING_AGENT}
+        - name: KAFKA_BOOTSTRAPADDRESS
+          value: {KAFKA_BOOTSTRAPADDRESS}
+        - name: RELEASE
+          value: {VERSION}
+        image: {IMAGE}
+        imagePullPolicy: Always
+        name: {SERVICE_NAME}
+        ports:
+        - containerPort: {PORT}
+        resources:
+          requests:
+            cpu: "{REQUEST_CPU}"
+            memory: "{REQUEST_MEM}"
+          limits:
+            memory: "{MAX_MEM}"
+            cpu: "{MAX_CPU}"
+      restartPolicy: Always

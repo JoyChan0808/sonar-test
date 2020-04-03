@@ -1,0 +1,1 @@
+alter table segment_split add column sort_num int not null  DEFAULT  0 COMMENT 'sort num';

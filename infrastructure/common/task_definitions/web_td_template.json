@@ -1,0 +1,101 @@
+[
+    {
+        "portMappings": [
+            {
+                "containerPort": ${container_port}
+            }
+        ],
+        "essential": true,
+        "name": "${service_name}",
+        "environment": [
+            {
+                "name": "JVM_OPTS",
+                "value": "-Xms1024m -Xmx1024m"
+            },
+            {
+                "name": "SPRING_DATASOURCE_URL",
+                "value": "jdbc:mysql://${db_host}:${db_port}/${db_name}"
+            },
+            {
+                "name": "SPRING_DATASOURCE_USERNAME",
+                "value": "${db_user}"
+            },
+            {
+                "name": "SPRING_DATASOURCE_PASSWORD",
+                "value": "${db_pass}"
+            },
+            {
+                "name": "SPRING_REDIS_HOST",
+                "value": "${redis_host}"
+            },
+            {
+                "name": "SPRING_REDIS_PORT",
+                "value": "${redis_port}"
+            },
+            {
+                "name": "THUNDERSTORM_COMPLEXSERVICE_ENDPOINT",
+                "value": "${thunderstorm_complexservice_endpoint}"
+            },
+            {
+                "name": "THUNDERSTORM_USERSERVICE_ENDPOINT",
+                "value": "${thunderstorm_userservice_endpoint}"
+            },
+            {
+                "name": "THUNDERSTORM_POSSERVICE_ENDPOINT",
+                "value": "${thunderstorm_posservice_endpoint}"
+            },
+            {
+                "name": "THUNDERSTORM_TITLESERVICE_ENDPOINT",
+                "value": "${thunderstorm_titleservice_endpoint}"
+            },
+            {
+                "name": "THUNDERSTORM_CPLSERVICE_ENDPOINT",
+                "value": "${thunderstorm_cplservice_endpoint}"
+            },
+            {
+                "name": "THUNDERSTORM_PRODUCERVIEWSERVICE_ENDPOINT",
+                "value": "${thunderstorm_producerviewservice_endpoint}"
+            },
+            {
+                "name": "KAFKA_BOOTSTRAPADDRESS",
+                "value": "${thunderstorm_kafka_bootstrapaddress}"
+            },
+            {
+                "name": "SPRING_PROFILES_ACTIVE",
+                "value": "${spring_profiles_active}"
+            },
+            {
+                "name": "THUNDERSTORM_TASKSERVICE_ENDPOINT",
+                "value": "${thunderstorm_taskservice_endpoint}"
+            },
+            {
+                "name": "THUNDERSTORM_PLAYLISTSERVICE_ENDPOINT",
+                "value": "${thunderstorm_playlistservice_endpoint}"
+            },
+            {
+                "name": "THUNDERSTORM_JOBSERVICE_ENDPOINT",
+                "value": "${thunderstorm_jobservice_endpoint}"
+            },
+            {
+                "name": "DSN",
+                "value": "${sentry_dsn}"
+            },
+            {
+                "name": "RELEASE",
+                "value": "${release}"
+            }
+        ],
+        "image": "${service_image}",
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-region": "eu-west-1",
+                "awslogs-group": "${cluster_name}",
+                "awslogs-stream-prefix": "ts"
+            }
+        },
+        "expanded": true,
+        "cpu": 512,
+        "memoryReservation": 1024
+    }
+]

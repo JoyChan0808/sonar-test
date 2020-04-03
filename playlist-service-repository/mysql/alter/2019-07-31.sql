@@ -1,0 +1,1 @@
+alter table segment_split add column sign varchar(36) COMMENT 'sign';

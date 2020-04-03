@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.aam.commons</groupId>
+        <artifactId>commons-app-parent</artifactId>
+        <version>1.0.4</version>
+    </parent>
+
+    <groupId>com.aam.producer</groupId>
+    <artifactId>playlist-service-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>playlist-service-protocol</module>
+        <module>playlist-service-biz</module>
+        <module>playlist-service-common</module>
+        <module>playlist-service-repository</module>
+        <module>playlist-service-sal</module>
+        <module>playlist-service-app</module>
+    </modules>
+
+    <properties>
+        <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
+        <alibaba.druid.version>1.1.10</alibaba.druid.version>
+        <velocity.version>2.0</velocity.version>
+
+        <!-- API reference versions -->
+        <java.version>1.8</java.version>
+        <protocol.playlist-service.version>1.0.2-SNAPSHOT</protocol.playlist-service.version>
+        <aam.commons.util.version>1.0.1</aam.commons.util.version>
+        <auth.lib.version>1.1-SNAPSHOT</auth.lib.version>
+        <ts.lib.version>1.0.3-SNAPSHOT</ts.lib.version>
+        <aam.task.version>1.0.4-SNAPSHOT</aam.task.version>
+
+        <mybaitsplus.version>3.1.2</mybaitsplus.version>
+        <mybatis-string.vsersion>2.0.1</mybatis-string.vsersion>
+        <mybatis.vsersion>3.5.1</mybatis.vsersion>
+        <flyway.version>5.2.4</flyway.version>
+        <lombok.version>1.18.8</lombok.version>
+        <sentry.version>1.7.28</sentry.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.sentry</groupId>
+                <artifactId>sentry-log4j2</artifactId>
+                <version>${sentry.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.sentry</groupId>
+                <artifactId>sentry-spring</artifactId>
+                <version>${sentry.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.sentry</groupId>
+                <artifactId>sentry</artifactId>
+                <version>${sentry.version}</version>
+            </dependency>
+
+            <!-- Project BEGIN -->
+            <dependency>
+                <groupId>com.aam.producer</groupId>
+                <artifactId>playlist-service-biz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aam.producer</groupId>
+                <artifactId>playlist-service-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aam.producer</groupId>
+                <artifactId>playlist-service-repository</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aam.producer</groupId>
+                <artifactId>playlist-service-sal</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- Project END -->
+
+            <!-- API reference BEGIN -->
+            <dependency>
+                <groupId>com.aam.producer</groupId>
+                <artifactId>playlist-service-protocol</artifactId>
+                <version>${protocol.playlist-service.version}</version>
+            </dependency>
+            <!-- API reference END -->
+
+            <!-- aam library begin -->
+            <dependency>
+                <groupId>com.aam.ts.utils</groupId>
+                <artifactId>aam-commons-util</artifactId>
+                <version>${aam.commons.util.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aam.authentication</groupId>
+                <artifactId>acl-auth-library</artifactId>
+                <version>${auth.lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aam.producer</groupId>
+                <artifactId>thunderstorm-library</artifactId>
+                <version>${ts.lib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aam.producer</groupId>
+                <artifactId>task-service-protocol</artifactId>
+                <version>${aam.task.version}</version>
+            </dependency>
+
+            <!-- aam library end -->
+
+            <!-- third library begin -->
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
+            </dependency>
+
+            <dependency>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+              <scope>provided</scope>
+            </dependency>
+
+            <!-- third library end -->
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- The parent-level dependencies should not be declared except non-transitive dependencies ("provided" and "test"). -->
+    <dependencies>
+
+        <dependency>
+            <groupId>io.sentry</groupId>
+            <artifactId>sentry</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.sentry</groupId>
+            <artifactId>sentry-log4j2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.sentry</groupId>
+            <artifactId>sentry-spring</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Static analysis BEGIN -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>objenesis</artifactId>
+                    <groupId>org.objenesis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Static analysis BEGIN -->
+
+        <!-- Log BEGIN -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+
+        <!--用于与slf4j保持桥接-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+
+        <!--slf4j核心包-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!-- Log END -->
+
+        <!-- Monitor BEGIN -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>io.micrometer</groupId>-->
+            <!--<artifactId>micrometer-core</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.micrometer</groupId>-->
+            <!--<artifactId>micrometer-registry-influx</artifactId>-->
+        <!--</dependency>-->
+        <!-- Monitor END -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.7.201606060606</version>
+                <configuration>
+                    <destFile>target/coverage-reports/jacoco-unit.exec</destFile>
+                    <dataFile>target/coverage-reports/jacoco-unit.exec</dataFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

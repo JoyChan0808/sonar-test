@@ -1,0 +1,1 @@
+alter table playlist_segment_split_association modify column title_id varchar(255)  COMMENT 'title_id';

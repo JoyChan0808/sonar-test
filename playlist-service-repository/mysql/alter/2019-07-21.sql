@@ -1,0 +1,1 @@
+alter table segment_split_content_association add column title varchar(200)  COMMENT 'title';

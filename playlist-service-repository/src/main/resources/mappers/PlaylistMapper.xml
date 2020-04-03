@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PlaylistMapper">
+
+  <!-- 通用查询映射结果 -->
+  <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PlaylistDO">
+    <id column="uuid" property="uuid"/>
+    <result column="organization_id" property="organizationId"/>
+    <result column="title" property="title"/>
+    <result column="automatically_apply" property="automaticallyApply"/>
+    <result column="deleted" property="deleted"/>
+    <result column="created" property="created"/>
+    <result column="last_modified" property="lastModified"/>
+    <result column="status" property="status"/>
+  </resultMap>
+
+  <select id="getByIdIgnoreOrgId" resultMap="BaseResultMap">
+        select * from playlist where uuid=#{0}
+    </select>
+</mapper>

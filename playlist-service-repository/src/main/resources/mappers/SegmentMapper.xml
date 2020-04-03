@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.SegmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.SegmentDO">
+        <id column="uuid" property="uuid" />
+        <result column="organization_id" property="organizationId" />
+        <result column="title" property="title" />
+        <result column="type" property="type" />
+        <result column="purpose" property="purpose" />
+        <result column="deleted" property="deleted" />
+        <result column="created" property="created" />
+        <result column="last_modified" property="lastModified" />
+        <result column="split_by_week" property="splitByWeek" />
+    </resultMap>
+
+    <select id="getAutomaticSegment" resultMap="BaseResultMap">
+        select * from segment where type = #{0}
+    </select>
+
+
+    <select id="getApiSegmentNames" resultType="string">
+        select title from segment where type = #{0} and organization_id is null
+    </select>
+
+    <select id="getAllSplitWeekSegment" resultMap="BaseResultMap">
+        select * from segment where split_by_week = 1
+    </select>
+
+    <select id="getAllSegment" resultMap="BaseResultMap">
+        select * from segment
+    </select>
+
+</mapper>

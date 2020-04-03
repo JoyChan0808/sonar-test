@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aam.producer.playlist.repository.dao.PplViewMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.aam.producer.playlist.repository.entity.PplViewDO">
+        <result column="ppl_uuid" property="pplUuid" />
+        <result column="playlist_uuid" property="playlistUuid" />
+        <result column="release_version_uuid" property="releaseVersionUuid" />
+        <result column="complex_uuid" property="complexUuid" />
+        <result column="organization_id" property="organizationId" />
+        <result column="title" property="title" />
+        <result column="status" property="status" />
+        <result column="automatically_apply" property="automaticallyApply" />
+        <result column="last_modified" property="lastModified" />
+        <result column="shows" property="shows" />
+        <result column="sites" property="sites" />
+        <result column="type" property="type" />
+        <result column="is3d" property="is3d" />
+    </resultMap>
+
+</mapper>

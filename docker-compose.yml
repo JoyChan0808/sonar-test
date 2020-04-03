@@ -1,0 +1,41 @@
+#version: '2'
+#
+#services:
+#  playlist:
+#    image: office-hub.docker.aamcn.com.cn:5000/aam/playlist-service:latest
+#    command:
+#      - /bin/sh
+#      - -c
+#      - |
+#        mvn clean package -Dmaven.test.skip=true &&
+#        cd playlist-service-app &&
+#        mvn deploy -Dmaven.test.skip=true
+#    build:
+#      dockerfile: playlist-service-app/Dockerfile
+#      context: .
+#      args:
+#        JAR_FILE: target/playlist-service-app-1.0-SNAPSHOT.jar
+#    restart: always
+#    environment:
+#      SPRING_PROFILES_ACTIVE: dev
+#      JVM_OPTS: "-Xms256m -Xmx512m"
+#    depends_on:
+#      - playlist_db
+#    volumes:
+#      - ./:/var/app
+#    ports:
+#      - 8081:8080
+
+#  playlist_db:
+#    image: mysql:5.7
+#    restart: always
+#    environment:
+#      MYSQL_DATABASE: playlist
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_USER: root
+#      MYSQL_PASS: root
+#    volumes:
+#      - "./playlist-service-repository/mysql/conf:/etc/mysql/conf.d"
+#      - "./playlist-service-repository/mysql/init:/docker-entrypoint-initdb.d/"
+#    ports:
+#      - 3306:33060

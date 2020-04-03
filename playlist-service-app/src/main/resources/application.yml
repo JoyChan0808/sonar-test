@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: playlist-service
+  profiles:
+    active: dev
+  messages:
+    basename: i18n/messages
+  flyway:
+    enabled: true
+
+server:
+  port: 8888
+mybatis-plus:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.aam.producer.playlist.repository.entity
+
+management:
+  health:
+    redis:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+
+thunderstorm:
+  pressureMeasurement: false
+

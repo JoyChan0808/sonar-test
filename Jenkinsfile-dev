@@ -1,0 +1,42 @@
+#!/usr/bin/env groovy
+pipeline {
+
+    agent { node { label 'worker' } }
+
+    triggers {
+        pollSCM('H/30 * * * *')
+    }
+
+    stages {
+        stage('Test') {
+            steps {
+                echo "TODO: fix unit test"
+            }
+        }
+
+        stage('Build') {
+            when { anyOf { branch 'ticket/*'; branch 'test'; } }
+            steps {
+                sh 'make build-dev'
+            }
+        }
+
+        stage('Deploy-Dev') {
+            when { anyOf { branch 'ticket/*'; } }
+            steps {
+                sh 'ssh root@k8s-dev-1 mkdir -p /k8s/playlist-service'
+                sh "make render-dev-k8s-config -s | ssh root@k8s-dev-1 'cat > /k8s/playlist-service/deployment.yml'"
+                sh 'ssh root@k8s-dev-1 kubectl apply -f /k8s/playlist-service/deployment.yml'
+            }
+        }
+
+        stage('Deploy-Test') {
+            when { branch 'test' }
+            steps {
+                sh 'ssh root@k8s-test-1 mkdir -p /k8s/playlist-service'
+                sh "make render-test-k8s-config -s | ssh root@k8s-test-1 'cat > /k8s/playlist-service/deployment.yml'"
+                sh 'ssh root@k8s-test-1 kubectl apply -f /k8s/playlist-service/deployment.yml'
+            }
+        }
+    }
+}
